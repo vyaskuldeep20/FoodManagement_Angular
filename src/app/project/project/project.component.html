@@ -1,7 +1,3 @@
-<div *ngIf="showAddProject">
-    <app-add-project [newProject]="currentProject" [isUpdate]="isUpdate" (newProjectEvent)="AddProject($event)"
-    (isSubmit)="ShowProjectList($event)"></app-add-project>
-</div>
 <div *ngIf="showProjectList">
     <button type="button" class="btn btn-outline-dark" style="margin-top: 1%; margin-bottom: 1%"
         (click)="OnAddProjectClick()">

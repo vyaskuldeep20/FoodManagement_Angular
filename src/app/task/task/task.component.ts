@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonDataService } from "src/app/common/common-data.service";
 import { Task } from "../task";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-task",
@@ -8,7 +9,7 @@ import { Task } from "../task";
   styleUrls: ["./task.component.css"],
 })
 export class TaskComponent implements OnInit {
-  constructor(private _commonDataService:CommonDataService) {
+  constructor(private _commonDataService:CommonDataService, private router: Router) {
     this.projectsList=this._commonDataService.getProjects;
     this.usersList=this._commonDataService.getUsers;
     this.tasks=this._commonDataService.getTasks;
@@ -29,10 +30,7 @@ export class TaskComponent implements OnInit {
   }
 
   OnAddTaskClick() {
-    this.showAddTask = true;
-    this.showTaskList = false;
-    this.isUpdate = false;
-    this.currentTask = {};
+    this.router.navigate(['home/AddTask'])
   }
 
   getUser(userId:any){
@@ -49,17 +47,7 @@ export class TaskComponent implements OnInit {
 
   
 
-  AddTask(newTask: Task) {
-    const isTaskExists = this.tasks.some((x) => x.Id === newTask.Id);
-    if (isTaskExists) {
-      
-      this._commonDataService.UpdateTask(newTask);
-    } else {
-      this._commonDataService.AddTask(newTask)
-    }
-    this.showAddTask = false;
-    this.showTaskList = true;
-  }
+  
 
   ShowTaskList(isSubmit: boolean) {
     if (!isSubmit) {
@@ -68,11 +56,8 @@ export class TaskComponent implements OnInit {
     }
   }
 
-  UpdateTask(Task: Task) {
-    this.currentTask = Task;
-    this.showAddTask = true;
-    this.showTaskList = false;
-    this.isUpdate = true;
+  UpdateTask(task: Task) {
+    this.router.navigate(['home/AddTask'],{ queryParams: { taskId: task.Id } })
   }
   DeleteTask(task: Task) {
     this._commonDataService.DeleteTask(task);

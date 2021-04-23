@@ -15,13 +15,13 @@
                 placeholder="Details about the project"  rows="3"></textarea>
             </div>
         </div>
-        <button *ngIf="!isUpdate" type="submit" class="btn btn-primary" (click)="AddNewProject(newProject)">
+        <button *ngIf="!isUpdate" type="submit" class="btn btn-primary" (click)="AddProject(newProject)">
             Add Project
         </button>
         <button style="margin-left: 1%" type="button" (click)="CancelAddProject()" class="btn btn-danger">
             Cancel
         </button>
-        <button *ngIf="isUpdate" style="margin-left: 1%" type="button" (click)="AddNewProject(newProject)" class="btn btn-info">
+        <button *ngIf="isUpdate" style="margin-left: 1%" type="button" (click)="AddProject(newProject)" class="btn btn-info">
             Save
         </button>
 </form>

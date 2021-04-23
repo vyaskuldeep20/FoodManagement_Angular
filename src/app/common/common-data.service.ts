@@ -152,13 +152,6 @@ DeleteTask(task:Task){
     }
      this.ProjectDataModule.push(newProject2);
 
-     const newProject5: Project = {
-      Id: 1005,
-      Name: "Smarsh Manager",
-      Detail: "Network Provider communication tool",
-      CreatedOn: dateTime,
-    }
-     this.ProjectDataModule.push(newProject5);
      const newProject3: Project = {
       Id: 1003,
       Name: "XL-Catlin",
@@ -173,6 +166,13 @@ DeleteTask(task:Task){
       CreatedOn: dateTime,
     }
      this.ProjectDataModule.push(newProject4);
+     const newProject5: Project = {
+      Id: 1005,
+      Name: "Smarsh Manager",
+      Detail: "Network Provider communication tool",
+      CreatedOn: dateTime,
+    }
+     this.ProjectDataModule.push(newProject5);
     
   }
 

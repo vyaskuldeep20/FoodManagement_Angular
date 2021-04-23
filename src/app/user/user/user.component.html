@@ -1,7 +1,3 @@
-<div *ngIf="showAddUser">
-  <app-add-user [newUser]="currentUser" [isUpdate]="isUpdate" (newUserEvent)="AddUser($event)"
-    (isSubmit)="ShowUserList($event)"></app-add-user>
-</div>
 <div *ngIf="showUserList" >
   <button type="button" class="btn btn-outline-dark" style="margin-top: 1%;margin-bottom: 1%;"
     (click)="OnAddUserClick()">
