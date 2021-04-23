@@ -1,0 +1,12 @@
+<div>
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Project Manager</a>
+    <a class="navbar-brand" style="margin-left:auto" *ngIf="router != '/home'" href="#">Logout</a>
+    <!-- <app-header-home *ngIf="router != '/ur_route'"></app-header-home> //component I want hidden unless url /home -->
+
+    <!-- <label for="clock" id="clock" style="margin-left: auto;color: aliceblue;">{{myDate | date:'medium'}}</label> -->
+  </nav>
+</div>
+<div >
+  <router-outlet></router-outlet>
+</div>
