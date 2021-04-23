@@ -1,7 +1,3 @@
-<div *ngIf="showAddTask">
-    <app-add-task [newTask]="currentTask" [isUpdate]="isUpdate" (newTaskEvent)="AddTask($event)" [projectDataList]="projectsList"
-    [userDataList]="usersList"  [statuses]="statuses"  (isSubmit)="ShowTaskList($event)"></app-add-task>
-</div>
 <div *ngIf="showTaskList">
 
     <button type="button" class="btn btn-outline-dark" style="margin-top: 1%; margin-bottom: 1%"

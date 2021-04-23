@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonDataService } from 'src/app/common/common-data.service';
+import { Router } from '@angular/router';
 import { User } from '../user';
 @Component({
   selector: 'app-user',
@@ -7,7 +8,7 @@ import { User } from '../user';
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit {
-  constructor(private _commonDataService: CommonDataService) {}
+  constructor(private _commonDataService: CommonDataService, private router: Router) {}
   showAddUser: boolean = false;
   showUserList: boolean = true;
   isUpdate: boolean = false;
@@ -20,10 +21,7 @@ export class UserComponent implements OnInit {
   }
 
   OnAddUserClick() {
-    this.showAddUser = true;
-    this.showUserList = false;
-    this.isUpdate = false;
-    this.currentUser = {};
+    this.router.navigate(['home/AddUser'])
   }
 
 
@@ -46,10 +44,7 @@ export class UserComponent implements OnInit {
   }
 
   UpdateUser(user: User) {
-    this.currentUser = user;
-    this.showAddUser = true;
-    this.showUserList = false;
-    this.isUpdate = true;
+    this.router.navigate(['home/AddUser'],{ queryParams: { userId: user.Id } })
   }
   DeleteUser(user: User) {
     const userIndex = this.users.indexOf(user);

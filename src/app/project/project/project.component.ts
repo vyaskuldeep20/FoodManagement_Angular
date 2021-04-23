@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Project } from "../project";
 import { AddProjectComponent } from "../add-project/add-project.component";
 import { CommonDataService } from "src/app/common/common-data.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-project",
@@ -9,7 +10,7 @@ import { CommonDataService } from "src/app/common/common-data.service";
   styleUrls: ["./project.component.css"],
 })
 export class ProjectComponent implements OnInit {
-  constructor(private _commonDataService: CommonDataService) {
+  constructor(private _commonDataService: CommonDataService, private router: Router) {
   }
 
   showAddProject: boolean = false;
@@ -23,24 +24,12 @@ export class ProjectComponent implements OnInit {
   }
 
   OnAddProjectClick() {
-    this.showAddProject = true;
-    this.showProjectList = false;
-    this.isUpdate = false;
-    this.currentProject = {};
+    this.router.navigate(['home/AddProject'])
   }
 
   
 
-  AddProject(newProject: Project) {
-    const isProjectExists = this.projects.some((x) => x.Id === newProject.Id);
-    if (isProjectExists) {
-      this._commonDataService.UpdateProject(newProject);
-    } else {
-      this._commonDataService.AddProject(newProject)
-    }
-    this.showAddProject = false;
-    this.showProjectList = true;
-  }
+ 
 
   ShowProjectList(isSubmit: boolean) {
     if (!isSubmit) {
@@ -49,11 +38,8 @@ export class ProjectComponent implements OnInit {
     }
   }
 
-  UpdateProject(Project: Project) {
-    this.currentProject = Project;
-    this.showAddProject = true;
-    this.showProjectList = false;
-    this.isUpdate = true;
+  UpdateProject(project: Project) {
+    this.router.navigate(['home/AddProject'],{ queryParams: { projectId: project.Id } })
   }
   DeleteProject(project: Project) {
     this._commonDataService.DeleteProject(project);
