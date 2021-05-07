@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonDataService } from 'src/app/common/common-data.service';
 import { Router } from '@angular/router';
 import { User } from '../user';
+import { UserService } from '../user-service.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit {
-  constructor(private _commonDataService: CommonDataService, private router: Router) {}
+  constructor(private userSerive: UserService,private router: Router) {}
+
+  
   showAddUser: boolean = false;
   showUserList: boolean = true;
   isUpdate: boolean = false;
@@ -16,25 +18,21 @@ export class UserComponent implements OnInit {
   users: Array<User> = [];
   currentUser: User = {};
   ngOnInit(): void {
-    this.users=this._commonDataService.getUsers;
+    this.getUsers();
+}
 
-  }
+getUsers(){
+  this.userSerive.getUsers().subscribe((data:any)=>{
+    this.users=data;
+})
+}
 
   OnAddUserClick() {
     this.router.navigate(['home/AddUser'])
   }
 
 
-  AddUser(newUser: User) {
-    const isUserExists = this.users.some((x) => x.Id === newUser.Id);
-    if (isUserExists) {
-      this._commonDataService.UpdateUser(newUser);
-    } else {
-      this._commonDataService.AddUser(newUser);
-    }
-    this.showAddUser = false;
-    this.showUserList = true;
-  }
+  
 
   ShowUserList(isSubmit: boolean) {
     if (!isSubmit) {
@@ -44,10 +42,11 @@ export class UserComponent implements OnInit {
   }
 
   UpdateUser(user: User) {
-    this.router.navigate(['home/AddUser'],{ queryParams: { userId: user.Id } })
+    this.router.navigate(['home/AddUser'],{ queryParams: { userId: user.id } })
   }
   DeleteUser(user: User) {
-    const userIndex = this.users.indexOf(user);
-    this.users.splice(userIndex, 1);
+    this.userSerive.deleteUser(user.id??0).subscribe((isSuccess)=>{
+      this.getUsers();
+    })
   }
 }

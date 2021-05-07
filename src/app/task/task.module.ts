@@ -7,6 +7,7 @@ import { AddTaskComponent } from "./add-task/add-task.component";
 import { ProjectModule } from "../project/project.module";
 import { HttpClientModule } from "@angular/common/http";
 import { CommonDataService } from "../common/common-data.service";
+import { TaskService } from "./task-service.service";
 
 @NgModule({
   declarations: [TaskComponent, AddTaskComponent],
@@ -17,6 +18,6 @@ import { CommonDataService } from "../common/common-data.service";
     ProjectModule,
     HttpClientModule,
   ],
-  providers: [CommonDataService],
+  providers: [TaskService],
 })
 export class TaskModule {}

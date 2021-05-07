@@ -1,9 +1,9 @@
 export class Task {
-    Id?: number;
-    ProjectId?: number;
-    Detail?: string;
-    AssignedToUser?: number;
-    Status?: number;
-    CreatedOn?: string;
+    id?: number;
+    projectId?: number;
+    detail?: string;
+    assignedToUser?: number;
+    status?: number;
+    createdOn?: string;
   }
   

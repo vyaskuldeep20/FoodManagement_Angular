@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Project } from '../project';
 import { Router,ActivatedRoute } from '@angular/router';
 import { CommonDataService } from 'src/app/common/common-data.service';
+import { ProjectService } from '../project-service.service';
 
 @Component({
   selector: 'app-add-project',
@@ -17,9 +18,10 @@ export class AddProjectComponent implements OnInit {
 
   
 
-  constructor(private route: ActivatedRoute,private router:Router,private _commonDataService: CommonDataService) {
-    this.projects=this._commonDataService.getProjects;
+  constructor(private route: ActivatedRoute,private router:Router,private _projectService: ProjectService) {
   }
+
+  
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -27,18 +29,19 @@ export class AddProjectComponent implements OnInit {
       if(id!=null){
         this.projectId = parseInt(id);
         this.isUpdate=true;
-        this.newProject=this.projects.find(x=>x.Id==this.projectId)??new Project();
+        this._projectService.getProjects().subscribe((data:any)=>{
+          this.projects=data;
+          this.newProject=this.projects.find(x=>x.id==this.projectId)??new Project();
+        });
+        
       }      
     });
   }
   AddProject(project: Project) {
-    const isProjectExists = this.projects.some((x) => x.Id === project.Id);
-    if (isProjectExists) {
-      this._commonDataService.UpdateProject(project);
-    } else {
-      this._commonDataService.AddProject(project)
-    }
+   this._projectService.saveProject(project).subscribe((success)=>{
     this.router.navigate(['home/project']);
+   })
+    
   }
   CancelAddProject(){
     this.router.navigate(['home/project']);

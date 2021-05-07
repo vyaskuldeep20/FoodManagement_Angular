@@ -16,10 +16,10 @@
             </thead>
             <tbody>
                 <tr style="text-align: center" *ngFor="let project of projects">
-                    <th scope="row">{{ project.Id }}</th>
-                    <td>{{ project.Name }}</td>
-                    <td>{{ project.Detail }}</td>
-                    <td>{{ project.CreatedOn }}</td>
+                    <th scope="row">{{ project.id }}</th>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.detail }}</td>
+                    <td>{{ project.createdOn }}</td>
                     <td>
                         <button type="button" (click)="UpdateProject(project)" style="margin-left: 2%"
                             class="btn btn-info">
