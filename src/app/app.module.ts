@@ -12,6 +12,8 @@ import { CommonModule, DatePipe } from "@angular/common";
 import { ProjectModule } from "./project/project.module";
 import { TaskModule } from "./task/task.module";
 import { NavbarComponent } from './navbar/navbar.component';
+import { CommonDataService } from "./common/common-data.service";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomeComponent, NavbarComponent],
@@ -23,9 +25,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     UserModule,
     ProjectModule,
     TaskModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [DatePipe],
+  providers: [DatePipe,CommonDataService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

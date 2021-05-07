@@ -3,6 +3,7 @@ import { Project } from "../project";
 import { AddProjectComponent } from "../add-project/add-project.component";
 import { CommonDataService } from "src/app/common/common-data.service";
 import { Router } from '@angular/router';
+import { ProjectService } from "../project-service.service";
 
 @Component({
   selector: "app-project",
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ["./project.component.css"],
 })
 export class ProjectComponent implements OnInit {
-  constructor(private _commonDataService: CommonDataService, private router: Router) {
+  constructor(private _projectService: ProjectService, private router: Router) {
   }
 
   showAddProject: boolean = false;
@@ -20,9 +21,14 @@ export class ProjectComponent implements OnInit {
   projects: Array<Project> = [];
   currentProject: Project = {};
   ngOnInit(): void {
-    this.projects=this._commonDataService.getProjects;
+    this.getProjects();
   }
 
+  getProjects(){
+    this._projectService.getProjects().subscribe((data:any)=>{
+      this.projects=data;
+    });
+  }
   OnAddProjectClick() {
     this.router.navigate(['home/AddProject'])
   }
@@ -39,9 +45,11 @@ export class ProjectComponent implements OnInit {
   }
 
   UpdateProject(project: Project) {
-    this.router.navigate(['home/AddProject'],{ queryParams: { projectId: project.Id } })
+    this.router.navigate(['home/AddProject'],{ queryParams: { projectId: project.id } })
   }
   DeleteProject(project: Project) {
-    this._commonDataService.DeleteProject(project);
+    this._projectService.deleteProject(project.id??-1).subscribe((isSuccess)=>{
+      this.getProjects();
+    });
   }
 }

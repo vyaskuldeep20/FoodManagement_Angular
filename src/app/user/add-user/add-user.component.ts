@@ -2,8 +2,7 @@ import { Component, OnInit, Output, EventEmitter ,Input} from '@angular/core';
 import { User } from '../user';
 import { FormsModule } from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
-import { CommonDataService } from 'src/app/common/common-data.service';
-import { UserComponent } from '../user/user.component';
+import { UserService } from '../user-service.service';
 
 @Component({
   selector: 'app-add-user',
@@ -17,8 +16,8 @@ export class AddUserComponent implements OnInit {
   newUser:User =new User();
  isUpdate: boolean = false;
 
-  constructor(private route: ActivatedRoute,private router:Router,private _commonDataService: CommonDataService) {
-    this.users=this._commonDataService.getUsers;
+  constructor(private route: ActivatedRoute,private router:Router,private userSerive: UserService) {
+    
   }
 
   ngOnInit(): void {
@@ -27,7 +26,11 @@ export class AddUserComponent implements OnInit {
       if(id!=null){
         this.userId = parseInt(id);
         this.isUpdate=true;
-        this.newUser=this.users.find(x=>x.Id==this.userId)??new User();
+        this.userSerive.getUsers().subscribe((data:any)=>{
+          this.users=data;
+          this.newUser=this.users.find(x=>x.id==this.userId)??new User();
+        })
+        
       }
       
     });
@@ -35,13 +38,10 @@ export class AddUserComponent implements OnInit {
   
 
   AddUser(user: User) {
-    const isUserExists = this.users.some((x) => x.Id === user.Id);
-    if (isUserExists) {
-      this._commonDataService.UpdateUser(user);
-    } else {
-      this._commonDataService.AddUser(user);
-    }
-    this.router.navigate(['home/user'])
+       this.userSerive.saveUser(user).subscribe((success)=>{
+        this.router.navigate(['home/user'])
+       });
+    
   }
 
   CancelAddUser(){

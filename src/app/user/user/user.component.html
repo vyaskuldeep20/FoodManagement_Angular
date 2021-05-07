@@ -16,10 +16,10 @@
       </thead>
       <tbody>
         <tr style="text-align: center;" *ngFor="let user of users">
-          <th scope="row">{{ user.Id }}</th>
-          <td>{{ user.FirstName }}</td>
-          <td>{{ user.LastName }}</td>
-          <td>{{ user.Email }}</td>
+          <th scope="row">{{ user.id }}</th>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
           <td>
             <button type="button" (click)="UpdateUser(user)" style="margin-left: 2%" class="btn btn-info">
               Update

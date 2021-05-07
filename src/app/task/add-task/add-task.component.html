@@ -4,23 +4,23 @@
         <div class="form-row" style="display: flex;">
             <div style="margin-bottom: 2%;margin-right: 2%;">
                 <label class="mr-sm-2" for="inlineFormCustomSelect">Project</label>
-                <select  [(ngModel)]="newTask.ProjectId" name="ProjectId" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <select  [(ngModel)]="newTask.projectId" name="ProjectId" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                     <option selected>Choose...</option>
-                    <option *ngFor="let project of projectDataList" [value]="project.Id" >{{ project.Name }}</option>
+                    <option *ngFor="let project of projectDataList" [value]="project.id" >{{ project.name }}</option>
                 </select>
             </div>
             <div style="margin-bottom: 2%;">
                 <label class="mr-sm-2" for="inlineFormCustomSelect">Assigned To User</label>
-                <select  [(ngModel)]="newTask.AssignedToUser" name="AssignedToUser" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <select  [(ngModel)]="newTask.assignedToUser" name="AssignedToUser" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                     <option selected>Choose...</option>
-                    <option *ngFor="let user of userDataList" [value]="user.Id" >{{ user.FirstName }}</option>
+                    <option *ngFor="let user of userDataList" [value]="user.id" >{{ user.firstName }}</option>
 
                 </select>
             </div>
 
             <div style="margin-bottom: 2%;">
                 <label class="mr-sm-2" for="inlineFormCustomSelect">Status</label>
-                <select  [(ngModel)]="newTask.Status" name="Status" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <select  [(ngModel)]="newTask.status" name="Status" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                     <option selected>Choose...</option>
                     <option *ngFor="let st of statuses" [value]="st.id" >{{ st.status }}</option>
 
@@ -29,7 +29,7 @@
         </div>
         <div>
             <label for="details">Details</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" [(ngModel)]="newTask.Detail" name="Detail"
+            <textarea class="form-control" id="exampleFormControlTextarea1" [(ngModel)]="newTask.detail" name="Detail"
                 #Detail="ngModel" placeholder="Details about the task" rows="3"></textarea>
         </div>
     </div>

@@ -1,7 +1,7 @@
 export class Project {
-    Id?: number;
-    Name?: string;
-    Detail?: string;
-    CreatedOn?: string;
+    id?: number;
+    name?: string;
+    detail?: string;
+    createdOn?: string;
   }
   

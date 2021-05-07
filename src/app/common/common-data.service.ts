@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { Project } from "../project/project";
@@ -5,19 +6,24 @@ import { Task } from "../task/task";
 import { User } from "../user/user";
 @Injectable()
 export class CommonDataService {
+  baseUrl:string="http://localhost:3001/users?"
   SharingData: Subject<any> = new Subject<any>();
   ProjectDataModule: Array<Project> = [];
   UserDataModule: Array<User> = [];
   TaskDataModule: Array<Task> = [];
   Statuses:Array<any> = [];
 
-  constructor() {
+  constructor(private http:HttpClient) {
     this.AddDummyUsers();
     this.AddDummyProjects();
     this.AddDummyTasks();
     this.AddDummyStatus();
   }
 
+  getStatuses(){
+    let url="http://localhost:3001/statuses"
+    return this.http.get(url);
+  }
   get getUsers(){
     return this.UserDataModule;
   }
@@ -33,13 +39,18 @@ get getStatus(){
 }
 
 AddUser(user:User){
-  let userId=this.UserDataModule[this.UserDataModule.length-1].Id;
-  user.Id=userId==null?0:userId+1;
+  let userId=this.UserDataModule[this.UserDataModule.length-1].id;
+  user.id=userId==null?0:userId+1;
   this.UserDataModule.push(user);
 }
 
+AuthenticateUser(userId:string){
+  let url=this.baseUrl+"email="+userId;
+  return this.http.get(url);
+}
+
 UpdateUser(user:User){
- const userIndex=this.UserDataModule.findIndex(x=>x.Id==user.Id);
+ const userIndex=this.UserDataModule.findIndex(x=>x.id==user.id);
  this.UserDataModule[userIndex]=user;
 }
 
@@ -51,14 +62,14 @@ DeleteUser(user:User){
 AddProject(project:Project){
   var today = new Date();
     var dateTime = today.getUTCFullYear() + "-" + (today.getUTCMonth()+1) + "-"+ today.getUTCDay();
-  let projectId=this.ProjectDataModule[this.ProjectDataModule.length-1].Id;
-  project.Id=projectId==null?0:projectId+1;
-  project.CreatedOn=dateTime;
+  let projectId=this.ProjectDataModule[this.ProjectDataModule.length-1].id;
+  project.id=projectId==null?0:projectId+1;
+  project.createdOn=dateTime;
   this.ProjectDataModule.push(project);
 }
 
 UpdateProject(project:Project){
- const projectIndex=this.ProjectDataModule.findIndex(x=>x.Id==project.Id);
+ const projectIndex=this.ProjectDataModule.findIndex(x=>x.id==project.id);
  this.ProjectDataModule[projectIndex]=project;
 }
 
@@ -70,14 +81,14 @@ DeleteProject(project:Project){
 AddTask(task:Task){
   var today = new Date();
   var dateTime = today.getUTCFullYear() + "-" + (today.getUTCMonth()+1) + "-"+ today.getUTCDay();
-  let taskId=this.TaskDataModule[this.TaskDataModule.length-1].Id;
-  task.Id=taskId==null?0:taskId+1;
-  task.CreatedOn=dateTime;
+  let taskId=this.TaskDataModule[this.TaskDataModule.length-1].id;
+  task.id=taskId==null?0:taskId+1;
+  task.createdOn=dateTime;
   this.TaskDataModule.push(task);
 }
 
 UpdateTask(task:Task){
- const taskIndex=this.TaskDataModule.findIndex(x=>x.Id==task.Id);
+ const taskIndex=this.TaskDataModule.findIndex(x=>x.id==task.id);
  this.TaskDataModule[taskIndex]=task;
 }
 
@@ -88,34 +99,34 @@ DeleteTask(task:Task){
 
   AddDummyUsers() {
     const newUser1: User = {
-        Id: 101,
-        FirstName: 'John',
-        LastName: 'wick ' ,
-        Email: 'john@outlook.in',
+        id: 101,
+        firstName: 'John',
+        lastName: 'wick ' ,
+        email: 'john@outlook.in',
       }
       const newUser2: User = {
-        Id: 102,
-        FirstName: 'will',
-        LastName: 'kass ',
-        Email: 'will@outlook.in',
+        id: 102,
+        firstName: 'will',
+        lastName: 'kass ',
+        email: 'will@outlook.in',
       }
       const newUser3: User = {
-        Id: 103,
-        FirstName: 'timothy',
-        LastName: 'v ',
-        Email: 'kass@outlook.in',
+        id: 103,
+        firstName: 'timothy',
+        lastName: 'v ',
+        email: 'kass@outlook.in',
       }
       const newUser4: User = {
-        Id: 104,
-        FirstName: 'andrew',
-        LastName: 'rit ',
-        Email: 'andrew@outlook.in',
+        id: 104,
+        firstName: 'andrew',
+        lastName: 'rit ',
+        email: 'andrew@outlook.in',
       }
       const newUser5: User = {
-        Id: 105,
-        FirstName: 'tim',
-        LastName: 'paine ',
-        Email: 'tim@outlook.in',
+        id: 105,
+        firstName: 'tim',
+        lastName: 'paine ',
+        email: 'tim@outlook.in',
       }
 
       this.UserDataModule.push(newUser1);
@@ -138,39 +149,39 @@ DeleteTask(task:Task){
     var dateTime = date + " " + time;
 
     const newProject1: Project = {
-      Id: 1001,
-      Name: "Branch Visit Tool",
-      Detail: "Branch Visting Tool for auditing",
-      CreatedOn: dateTime,
+      id: 1001,
+      name: "Branch Visit Tool",
+      detail: "Branch Visting Tool for auditing",
+      createdOn: dateTime,
     }
      this.ProjectDataModule.push(newProject1);
      const newProject2: Project = {
-      Id: 1002,
-      Name: "JTransfer",
-      Detail: "Transfer request tool for transfer to jaipur",
-      CreatedOn: dateTime,
+      id: 1002,
+      name: "JTransfer",
+      detail: "Transfer request tool for transfer to jaipur",
+      createdOn: dateTime,
     }
      this.ProjectDataModule.push(newProject2);
 
      const newProject3: Project = {
-      Id: 1003,
-      Name: "XL-Catlin",
-      Detail: "Insurance Application for transaction",
-      CreatedOn: dateTime,
+      id: 1003,
+      name: "XL-Catlin",
+      detail: "Insurance Application for transaction",
+      createdOn: dateTime,
     }
      this.ProjectDataModule.push(newProject3);
      const newProject4: Project = {
-      Id: 1004,
-      Name: "My Mobile Health",
-      Detail: "Mobile patch update notification tool",
-      CreatedOn: dateTime,
+      id: 1004,
+      name: "My Mobile Health",
+      detail: "Mobile patch update notification tool",
+      createdOn: dateTime,
     }
      this.ProjectDataModule.push(newProject4);
      const newProject5: Project = {
-      Id: 1005,
-      Name: "Smarsh Manager",
-      Detail: "Network Provider communication tool",
-      CreatedOn: dateTime,
+      id: 1005,
+      name: "Smarsh Manager",
+      detail: "Network Provider communication tool",
+      createdOn: dateTime,
     }
      this.ProjectDataModule.push(newProject5);
     
@@ -181,48 +192,48 @@ DeleteTask(task:Task){
     var dateTime = today.getUTCFullYear() + "-" + (today.getUTCMonth()+1) + "-"+ today.getUTCDay();
 
       const newTask1: Task = {
-        Id: 1,
-        ProjectId: 1001,
-        Detail: "Branch manager should be alerted once visit is registered.",
-        CreatedOn: dateTime,
-        Status:1,
-        AssignedToUser:102
+        id: 1,
+        projectId: 1001,
+        detail: "Branch manager should be alerted once visit is registered.",
+        createdOn: dateTime,
+        status:1,
+        assignedToUser:102
       };
       this.TaskDataModule.push(newTask1);
       const newTask2: Task = {
-        Id: 2,
-        ProjectId: 1003,
-        Detail: "Jaipur Employee should not be able to apply request for transfer",
-        CreatedOn: dateTime,
-        Status:2,
-        AssignedToUser:101
+        id: 2,
+        projectId: 1003,
+        detail: "Jaipur Employee should not be able to apply request for transfer",
+        createdOn: dateTime,
+        status:2,
+        assignedToUser:101
       };
       this.TaskDataModule.push(newTask2);
       const newTask3: Task = {
-        Id: 3,
-        ProjectId: 1005,
-        Detail: "It should show fraud calls made from different telecom providers ",
-        CreatedOn: dateTime,
-        Status:3,
-        AssignedToUser:105
+        id: 3,
+        projectId: 1005,
+        detail: "It should show fraud calls made from different telecom providers ",
+        createdOn: dateTime,
+        status:3,
+        assignedToUser:105
       };
       this.TaskDataModule.push(newTask3);
       const newTask4: Task = {
-        Id: 4,
-        ProjectId: 1002,
-        Detail: "Add functionality to make payment throgh bitcoin ",
-        CreatedOn: dateTime,
-        Status:4,
-        AssignedToUser:103
+        id: 4,
+        projectId: 1002,
+        detail: "Add functionality to make payment throgh bitcoin ",
+        createdOn: dateTime,
+        status:4,
+        assignedToUser:103
       };
       this.TaskDataModule.push(newTask4);
       const newTask5: Task = {
-        Id: 5,
-        ProjectId: 1004,
-        Detail: "Upgrade to ios14.5 ",
-        CreatedOn: dateTime,
-        Status:5,
-        AssignedToUser:104
+        id: 5,
+        projectId: 1004,
+        detail: "Upgrade to ios14.5 ",
+        createdOn: dateTime,
+        status:5,
+        assignedToUser:104
       };
       this.TaskDataModule.push(newTask5);
     

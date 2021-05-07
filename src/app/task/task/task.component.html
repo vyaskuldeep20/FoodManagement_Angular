@@ -19,12 +19,12 @@
             </thead>
             <tbody>
                 <tr style="text-align: center" *ngFor="let task of tasks">
-                    <th scope="row">{{ task.Id }}</th>
-                    <td>{{ getProject(task.ProjectId)}}</td>
-                    <td>{{ task.Detail }}</td>
-                    <td>{{ getUser(task.AssignedToUser) }}</td>
-                    <td>{{ getStatus(task.Status) }}</td>
-                    <td>{{ task.CreatedOn }}</td>
+                    <th scope="row">{{ task.id }}</th>
+                    <td>{{ getProject(task.projectId)}}</td>
+                    <td>{{ task.detail }}</td>
+                    <td>{{ getUser(task.assignedToUser) }}</td>
+                    <td>{{ getStatus(task.status) }}</td>
+                    <td>{{ task.createdOn }}</td>
                     <td>
                         <button type="button" (click)="UpdateTask(task)" style="margin-left: 2%"
                             class="btn btn-info">
