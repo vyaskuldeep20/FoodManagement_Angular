@@ -14,22 +14,23 @@ Relevant source code: https://github.com/typicode/json-server/blob/master/src/cl
 const jsonServer = require("json-server");
 const server = jsonServer.create();
 const path = require("path");
+const { updateLanguageServiceSourceFile } = require("typescript");
 const router = jsonServer.router(path.join(__dirname, "db.json"));
 
 // Can pass a limited number of options to this to override (some) defaults. See https://github.com/typicode/json-server#api
 const middlewares = jsonServer.defaults({
   // Display json-server's built in homepage when json-server starts.
-  static: "node_modules/json-server/dist"
+  static: "node_modules/json-server/dist",
 });
 
 // Set default middlewares (logger, static, cors and no-cache)
- server.use(middlewares);
+server.use(middlewares);
 
 // To handle POST, PUT and PATCH you need to use a body-parser. Using JSON Server's bodyParser
 server.use(jsonServer.bodyParser);
 
 // Simulate delay on all requests
-server.use(function(req, res, next) {
+server.use(function (req, res, next) {
   setTimeout(next, 0);
 });
 
@@ -37,17 +38,28 @@ server.use(function(req, res, next) {
 
 // Add createdAt to all POSTS
 server.use((req, res, next) => {
-   var today=new Date();
-   if (req.method === "POST") {
-     req.body.createdOn = String(today.getDate()).padStart(2, '0')+"-"+String(today.getUTCMonth()+1).padStart(2, '0')+"-"+today.getUTCFullYear();
-   }
+  var today = new Date();
+  if (req.method === "POST") {
+    req.body.createdOn =
+      String(today.getDate()).padStart(2, "0") +
+      "-" +
+      String(today.getUTCMonth() + 1).padStart(2, "0") +
+      "-" +
+      today.getUTCFullYear();
+  }
   // Continue to JSON Server router
   next();
 });
+server.get("/getSearchData",function(req,res,next){
+  console.log(req);
+  let users = router.db.get("users").valueOf();
+  res.status(200).send(users);
+})
 
-server.post("/projects/", function(req, res, next) {
+
+server.post("/projects/", function (req, res, next) {
   const error = validateProject(req.body);
-  console.log(req.body)
+  console.log(req.body);
   if (error) {
     res.status(400).send(error);
   } else {
@@ -55,9 +67,9 @@ server.post("/projects/", function(req, res, next) {
   }
 });
 
-server.post("/users/", function(req, res, next) {
+server.post("/users/", function (req, res, next) {
   const error = validateUser(req.body);
-  console.log(req.body)
+  console.log(req.body);
   if (error) {
     res.status(400).send(error);
   } else {
@@ -65,7 +77,7 @@ server.post("/users/", function(req, res, next) {
   }
 });
 
-server.post("/tasks/", function(req, res, next) {
+server.post("/tasks/", function (req, res, next) {
   const error = validateTask(req.body);
   if (error) {
     res.status(400).send(error);
@@ -94,25 +106,36 @@ server.listen(port, () => {
 // }
 
 function validateProject(project) {
-   if (!project.name) return "Name is required.";
-   if (!project.detail) return "Detail is required.";
-   if (!project.createdOn) return "creation date is required.";
+  if (!project.name) return "Name is required.";
+  if (!project.detail) return "Detail is required.";
+  if (!project.createdOn) return "creation date is required.";
   return "";
 }
 
 function validateUser(user) {
+  users = router.db.get("users").valueOf();
   if (!user.firstName) return "First Name is required.";
-   if (!user.lastName) return "Last Name is required.";
- if (!user.email) return "Email is required.";  
+  if (!user.lastName) return "Last Name is required.";
+  if (!user.email) return "Email is required.";
   // if (!user.Password) return "Password is required.";
-   if (!user.createdOn) return "Creation date is required.";
+  if (!user.createdOn) return "Creation date is required.";
+  let usernameExists=false;
+  users.forEach((element) => {
+    if (element.email.toLowerCase() == user.email.toLowerCase()) {
+      usernameExists= true;
+    }
+  });
+  if (usernameExists) {
+    console.log("Username exists");
+    return "UserName already present";
+  }
   return "";
 }
 
 function validateTask(task) {
-   if (!task.detail) return "Task detail is required.";
-   if (!task.assignedToUser) return "User info is required.";
-   if (!task.status) return "Project Status is required.";
-   if (!task.createdOn) return "Creation date is required.";
+  if (!task.detail) return "Task detail is required.";
+  if (!task.assignedToUser) return "User info is required.";
+  if (!task.status) return "Project Status is required.";
+  if (!task.createdOn) return "Creation date is required.";
   return "";
 }
