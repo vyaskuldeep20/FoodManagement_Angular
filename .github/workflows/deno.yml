@@ -3,7 +3,7 @@ name: Angular Workflow
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   build:
